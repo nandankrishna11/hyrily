@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -9,6 +8,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { User } from '@supabase/supabase-js';
 import { AlertCircle, Mail } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -22,19 +22,28 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
   const [password, setPassword] = useState('');
   const [showEmailConfirmation, setShowEmailConfirmation] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     // Check initial auth state
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
       setLoading(false);
+      // Redirect to select-role if user is authenticated and on /login
+      if (user && location.pathname === '/login') {
+        navigate('/select-role', { replace: true });
+      }
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
       setLoading(false);
-      
+      // Redirect to select-role if user is authenticated and on /login
+      if (session?.user && location.pathname === '/login') {
+        navigate('/select-role', { replace: true });
+      }
       // Hide email confirmation message when user successfully signs in
       if (session?.user) {
         setShowEmailConfirmation(false);
@@ -42,80 +51,11 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [navigate, location]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setShowEmailConfirmation(false);
-
-    try {
-      if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        
-        if (error) {
-          if (error.message.includes('Email not confirmed')) {
-            setShowEmailConfirmation(true);
-            toast({
-              title: "Email Confirmation Required",
-              description: "Please check your email and click the confirmation link to verify your account.",
-              variant: "destructive",
-            });
-          } else if (error.message.includes('Invalid login credentials')) {
-            toast({
-              title: "Invalid Credentials",
-              description: "Please check your email and password and try again.",
-              variant: "destructive",
-            });
-          } else {
-            throw error;
-          }
-        } else {
-          toast({
-            title: "Welcome back!",
-            description: "You've successfully signed in.",
-          });
-        }
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/`
-          }
-        });
-        
-        if (error) {
-          if (error.message.includes('User already registered')) {
-            toast({
-              title: "Account Already Exists",
-              description: "An account with this email already exists. Try signing in instead.",
-              variant: "destructive",
-            });
-            setIsLogin(true);
-          } else {
-            throw error;
-          }
-        } else {
-          setShowEmailConfirmation(true);
-          toast({
-            title: "Account created!",
-            description: "Please check your email to verify your account before signing in.",
-          });
-        }
-      }
-    } catch (error: any) {
-      toast({
-        title: "Authentication Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
+    navigate('/landing', { replace: true });
   };
 
   const handleGoogleSignIn = async () => {
