@@ -17,6 +17,7 @@ import CandidateInterview from "./pages/CandidateInterview";
 import JoinInterview from './pages/JoinInterview';
 import AuthWrapper from "@/components/AuthWrapper";
 import CompanyStackSelection from "./pages/CompanyStackSelection";
+import CandidatePortal from "./pages/CandidatePortal";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
           <Route path="/candidate/login" element={<CandidateLogin />} />
           <Route path="/candidate/interview" element={<CandidateInterview />} />
           <Route path="/join/:sessionId" element={<JoinInterview />} />
+          <Route path="/candidate-portal" element={<CandidatePortal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
