@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Sparkles, User, LogOut } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -10,6 +10,7 @@ const Navigation = () => {
   const [user, setUser] = useState<any>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -150,12 +151,14 @@ const Navigation = () => {
                       ? 'border-white/20 text-white hover:bg-white/10' 
                       : 'border-gray-300 text-gray-700 hover:bg-gray-50'
                   }`}
+                  onClick={() => navigate('/login')}
                 >
                   Sign In
                 </Button>
                 <Button
                   size="sm"
                   className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold transition-all duration-300"
+                  onClick={() => navigate('/login')}
                 >
                   Get Started
                 </Button>
@@ -229,13 +232,15 @@ const Navigation = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="w-full border-white/20 text-white hover:bg-white/10"
+                      className="w-full mb-2"
+                      onClick={() => { navigate('/login'); setIsMenuOpen(false); }}
                     >
                       Sign In
                     </Button>
                     <Button
                       size="sm"
                       className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold"
+                      onClick={() => { navigate('/login'); setIsMenuOpen(false); }}
                     >
                       Get Started
                     </Button>

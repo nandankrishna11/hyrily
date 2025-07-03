@@ -73,7 +73,7 @@ const HeroSection = () => {
               <Button 
                 size="lg" 
                 className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold text-lg h-auto px-8 py-4 transition-all duration-300"
-                onClick={() => navigate('/interview')}
+                onClick={() => navigate('/login')}
               >
                 <span className="flex items-center gap-2">
                   <Zap className="w-5 h-5" />
@@ -168,15 +168,6 @@ const HeroSection = () => {
         <div className="w-6 h-10 border-2 border-gray-300 rounded-full flex justify-center">
           <div className="w-1 h-3 bg-orange-500 rounded-full mt-2 animate-pulse"></div>
         </div>
-      </div>
-
-      <div className="absolute top-6 left-6 z-50 pointer-events-auto">
-        <Link
-          to="/"
-          className="premium-icon flex items-center gap-2 text-primary border border-primary rounded-md px-4 py-2 hover:bg-primary/10 transition-colors font-semibold"
-        >
-          Back
-        </Link>
       </div>
     </section>
   );

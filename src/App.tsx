@@ -15,6 +15,8 @@ import CompanyInterviewSession from "./components/CompanyInterviewSession";
 import CandidateLogin from "./pages/CandidateLogin";
 import CandidateInterview from "./pages/CandidateInterview";
 import JoinInterview from './pages/JoinInterview';
+import AuthWrapper from "@/components/AuthWrapper";
+import CompanyStackSelection from "./pages/CompanyStackSelection";
 
 const queryClient = new QueryClient();
 
@@ -25,8 +27,10 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/home" element={<Index />} />
+          <Route path="/" element={<Index />} />
+          <Route path="/login" element={<AuthWrapper><div /></AuthWrapper>} />
+          <Route path="/landing" element={<LandingPage />} />
+          <Route path="/select-role" element={<CompanyStackSelection />} />
           <Route path="/student" element={<Interview />} />
           <Route path="/company" element={<CompanyLogin />} />
           <Route path="/company/session-link" element={<CompanySessionLink />} />
