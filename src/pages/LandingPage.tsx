@@ -57,13 +57,13 @@ const LandingPage: React.FC = () => {
           <Button 
             size="lg" 
             className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold text-lg h-auto px-8 py-4 transition-all duration-300"
-            onClick={() => navigate("/home", { replace: true })}
+            onClick={() => navigate("/candidate-portal", { replace: true })}
           >
             <span className="flex items-center gap-2">
               <div className="premium-icon">
                 <Zap className="w-5 h-5" />
               </div>
-              Student
+              Candidate
             </span>
           </Button>
           <Button 
